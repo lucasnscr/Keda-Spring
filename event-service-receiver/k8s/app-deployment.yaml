@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-service-receiver-deployment
+spec:
+  selector:
+    matchLabels:
+      app: event-service-receiver
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9096"
+      labels:
+        app: event-service-receiver
+    spec:
+      containers:
+        - name: event-service-receiver
+          image: lucasnscr/event-service-receiver:1.2
+          ports:
+            - containerPort: 9096
